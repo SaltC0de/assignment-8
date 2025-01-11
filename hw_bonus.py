@@ -10,8 +10,27 @@ longest_consecutive([100, 4, 200, 1, 3, 2]) -> 4
 """
 
 def longest_consecutive(my_list: list[int]) -> int:
-    # write your code here
-    pass
+    if not my_list:
+        return 0
+    num_set = set(my_list)
+    max_length = 0
+
+    for num in num_set:
+        if num - 1 not in num_set:
+            current_num = num
+            current_length = 1
+
+            while current_num + 1 in num_set:
+                current_num += 1
+                current_length += 1
+
+            max_length = max(max_length, current_length)
+
+    return max_length
+
+
+
+print(longest_consecutive([100, 4, 200, 1, 3, 2]))
 
 """
 💎 Exercise-2 (Find missing number):
@@ -25,8 +44,16 @@ find_missing([1, 2, 4]) -> 3
 """
 
 def find_missing(my_list: list[int]) -> int:
-    # write your code here
-    pass
+    if len(my_list) <= 1:
+        return None
+    n = len(my_list) + 1
+    total_sum = n * (n + 1) // 2
+    actual_sum = sum(my_list)
+    return total_sum - actual_sum
+
+
+
+print(find_missing([1, 2, 4]))
 
 
 """
@@ -41,8 +68,25 @@ find_duplicate([1, 3, 4, 2, 2]) -> 2
 """
 
 def find_duplicate(my_list: list[int]) -> int:
-    # write your code here
-    pass
+    slow, fast = my_list[0], my_list[0]
+
+
+    while True:
+        slow = my_list[slow]
+        fast = my_list[my_list[fast]]
+        if slow == fast:
+            break
+
+
+    slow = my_list[0]
+    while slow != fast:
+        slow = my_list[slow]
+        fast = my_list[fast]
+
+    return slow
+
+
+print(find_duplicate([1, 3, 4, 2, 2]))
 
 
 """
@@ -59,5 +103,16 @@ group_anagrams(["eat", "tea", "tan", "ate", "nat", "bat"])
 """
 
 def group_anagrams(words: list[str]) -> list[list[str]]:
-    # write your code here
-    pass
+    from collections import defaultdict
+    anagram_groups = defaultdict(list)
+
+    for word in words:
+        sorted_word = ''.join(sorted(word))
+        anagram_groups[sorted_word].append(word)
+
+    return list(anagram_groups.values())
+
+
+
+print(group_anagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+
